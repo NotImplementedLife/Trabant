@@ -1,4 +1,4 @@
-# [...]
+# Trabant
 
 This repo is part of [HomebrewOwl.GB](https://github.com/NotImplementedLife/HomebrewOwl.GB "HomebrewOwl") projects collection.
 This is a [GB Compo 2021](https://gbdev.io/gbcompo21/) game entry.
@@ -10,7 +10,7 @@ This is a [GB Compo 2021](https://gbdev.io/gbcompo21/) game entry.
 ## How to build
 
 ```
-git clone https://github.com/NotImplementedLife/[...] --recursive
+git clone https://github.com/NotImplementedLife/Trabant --recursive
 ```
 
 ```
