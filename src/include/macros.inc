@@ -29,3 +29,9 @@ wait_vram: MACRO
 	and STATF_BUSY
 	jr nz, .waitVRAM\@
 ENDM
+
+; rBGPI gives an "already defined" error
+rBGPI EQU $FF68
+rBGPD EQU $FF69
+rOBPI EQU $FF6A
+rOBPD EQU $FF6B

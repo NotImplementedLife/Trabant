@@ -35,7 +35,7 @@ SRAMSIZE := 0x00
 
 # ROM name
 ROMNAME := Trabant_1_${VERSION}
-ROMEXT  := gb
+ROMEXT  := gbc
 
 
 # Compilation parameters, uncomment to apply, comment to cancel
