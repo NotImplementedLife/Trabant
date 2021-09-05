@@ -10,10 +10,10 @@ PADVALUE := 0xFF
 VERSION := 0
 
 # 4-ASCII letter game ID
-GAMEID := HOTP
+GAMEID := TRBT
 
 # Game title, up to 11 ASCII chars
-TITLE := HOTEMPLATE
+TITLE := TRABANT
 
 # New licensee, 2 ASCII chars
 # Homebrew games FTW! | HomebrewOwl
@@ -34,7 +34,7 @@ MBC := 0x00
 SRAMSIZE := 0x00
 
 # ROM name
-ROMNAME := hotemplate
+ROMNAME := Trabant_1_${VERSION}
 ROMEXT  := gb
 
 
@@ -51,7 +51,7 @@ ASFLAGS += -h
 # Game Boy Color compatible
 # FIXFLAGS += -c
 # Game Boy Color required
-# FIXFLAGS += -C
+FIXFLAGS += -C
 
 # Super Game Boy compatible
 # FIXFLAGS += -s
