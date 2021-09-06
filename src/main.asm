@@ -197,7 +197,7 @@ Main::
 	jr nz, :-
 
 	
-	jr @
+	jp GamePlay
 
 SECTION "Input React", ROM0
 
