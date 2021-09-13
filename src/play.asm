@@ -19,8 +19,7 @@ GamePlay::
 	call waitForVBlank
 	initOAM ShadowOAM
 	
-	ldh a, [rLCDC]
-	or LCDCF_OBJON
+	ld a, LCDCF_ON | LCDCF_BGON | LCDCF_OBJON | LCDCF_WINON | LCDCF_WIN9C00
 	ldh [rLCDC], a
 	
 	ld a, $80
@@ -28,6 +27,9 @@ GamePlay::
 	
 	ld hl, IntroTrabantPalette0
 	call loadObjPaletteFromHL
+	
+	ld a, [wTrabantColorId]
+	call TrabantFrontSetColorObj
 	
 	
 	

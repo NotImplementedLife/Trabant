@@ -28,6 +28,20 @@ TrabantFrontSetColor::
 	ld a, [hli]
 	ldh [rBGPD], a
 	ret
+	
+; a = color id (0-7)
+TrabantFrontSetColorObj::
+	rlca
+	ld hl, TrabantColors
+	add l
+	ld l, a
+	ld a, $82
+	ldh [rOBPI], a
+	ld a, [hli]
+	ldh [rOBPD], a
+	ld a, [hli]
+	ldh [rOBPD], a
+	ret
 
 SECTION "Color Selection Sprite Tiles", ROMX
 

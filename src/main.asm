@@ -26,14 +26,12 @@ Main::
 	ld a, $80
 	ldh [rBGPI], a
 	ld a, $FF
+	
+	ld b, 8
+.loopInitBGP
 	ldh [rBGPD], a
-	ldh [rBGPD], a
-	ldh [rBGPD], a
-	ldh [rBGPD], a
-	ldh [rBGPD], a
-	ldh [rBGPD], a
-	ldh [rBGPD], a
-	ldh [rBGPD], a
+	dec b
+	jr nz, .loopInitBGP
 	
 	ld hl, $8000
 	ld de, TrabantFrontTiles
