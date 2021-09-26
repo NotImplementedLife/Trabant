@@ -14,3 +14,17 @@ DB $60, $1F, $73, $4E, $AB, $00, $00, $00
 BackgroundGrassPalette2::
 DB $4A, $29, $73, $4E, $AB, $00, $00, $00
 
+BackgroundGrassPalette3::
+DB $4A, $29, $73, $4E, $60, $1F, $00, $00
+
+; sky
+BackgroundGrassPalette4::
+DB $30, $77, $FF, $7F, $4A, $29, $00, $00
+
+; land
+BackgroundGrassPalette5::
+DB $60, $1F, $A0, $15, $4A, $29, $00, $00
+
+BackgroundGrassPalette6::
+DB $60, $1F, $A0, $15, $A0, $15, $00, $00
+
