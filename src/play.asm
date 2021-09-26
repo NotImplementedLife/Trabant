@@ -16,8 +16,6 @@ GamePlay::
 	REPT(7)
 	call loadPaletteFromHL
 	ENDR
-
-	
 	
 	ld hl, $8000
 	ld de, TrabantSideTiles
@@ -99,8 +97,6 @@ GamePlay::
 	ld bc, 32
 	call fillMemory
 	
-	
-	
 	xor a
 	ldh [rVBK], a
 	
@@ -124,16 +120,118 @@ GamePlay::
 	ld a, [wTrabantColorId]
 	call TrabantFrontSetColorObj
 	
-.loop
+	xor a
+	ldh [hMainScrollIndex], a
+	ldh [hMountainScrollIndex], a	
+	ldh [hLands0ScrollIndex], a
+	ldh [hLands1ScrollIndex], a
+	
+	ldh [hMainCounter], a
+	ldh [hMountainCounter], a	
+	ldh [hLands0Counter], a
+	ldh [hLands1Counter], a
+	
+	ld [wCooldown], a
+	ld [wMusicOffset], a
+	
+	ld a, 2
+	ldh [hSpeed], a
+	
+	ld a, $80
+	ldh [hTrabantY], a
+
 	call waitForVBlank
+	
+	ldh a, [rSTAT]
+	or $40
+	ldh [rSTAT], a
+	
+	ld a, [rIE]
+	or 2
+	ld [rIE], a ; Enable STAT interrupt
+	
+.loop
+	call waitForVBlank	
+	
+	ld hl, hMainScrollIndex
+	ld bc, hMainCounter
+	ld e, 1
+	call AdjustScrollX
+	
+	ld hl, hLands0ScrollIndex
+	ld bc, hLands0Counter
+	ld e, 3
+	call AdjustScrollX
+	
+	ld hl, hLands1ScrollIndex
+	ld bc, hLands1Counter
+	ld e, 5
+	call AdjustScrollX
+	
+	ld hl, hMountainScrollIndex
+	ld bc, hMountainCounter
+	ld e, 7
+	call AdjustScrollX
+	
 	call updateJoypadState
 	ld a, [wJoypadState]
-	and PADF_UP;
+	and PADF_UP | PADF_LEFT
 	call nz, MoveUp
 	ld a, [wJoypadState]
-	and PADF_DOWN
+	and PADF_DOWN | PADF_RIGHT
 	call nz, MoveDown
+	
+	ld a, [wJoypadPressed]
+	and PADF_A
+	call nz, IncreaseSpeed
+	
+	ld a, [wJoypadPressed]
+	and PADF_B
+	call nz, DecreaseSpeed
+	
+	ld a, [wJoypadPressed]
+	and PADF_START
+	jp nz, Restart
+	
+	call ProcessMusic
+	
 	jr .loop
 	
+Restart::
+	; disable STAT
+	ld a, $83
+	ldh [rSTAT], a
+	call waitForVBlank
+	xor a
+	ldh [rSCX], a
+	ldh [rSCY], a
 	
-	jr @
+	ld a, $91
+	ldh [rLCDC], a
+	
+	ld a, $80
+	ld [rBGPI], a
+	ld a, $FF
+	REPT(64)
+		ldh [rBGPD], a
+	ENDR
+	
+	call clearVRAM	
+	
+	; reinit tile attributes
+	ld a, 1
+	ldh [rVBK], a
+	
+	ld d, $00
+	ld hl, $9800
+	ld bc, 1024
+	call fillMemory
+	
+	xor a
+	ldh [rVBK], a
+	
+	; reset stack
+	ld hl, $FFFE
+	ld sp, hl
+	
+	jp Main

@@ -8,7 +8,7 @@ SECTION "Header", ROM0[$100]
 
 SECTION "Entry point", ROM0
 
-EntryPoint:
+EntryPoint::
 	call HbOwlSplashScreen
 	call CopyDMARoutine
 	ei
