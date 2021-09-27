@@ -9,7 +9,7 @@ DB $A0, $25 ; blue
 DB $30, $77 ; sky blue
 DB $F7, $03 ; lime
 DB $98, $65 ; purple
-DB $1F, $01 ; orange
+DB $5F, $02 ; orange
 DB $22, $22 ; turqoise
 
 

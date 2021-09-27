@@ -235,7 +235,7 @@ Restart::
 		ldh [rBGPD], a
 	ENDR
 	
-	call clearVRAM	
+	call clearVRAM		
 	
 	; reinit tile attributes
 	ld a, 1
@@ -248,6 +248,8 @@ Restart::
 	
 	xor a
 	ldh [rVBK], a
+	
+	call Ending
 	
 	; reset stack
 	ld hl, $FFFE
