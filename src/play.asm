@@ -17,6 +17,13 @@ GamePlay::
 	call loadPaletteFromHL
 	ENDR
 	
+	ld a, $80+14
+	ldh [rOBPI], a
+	ld a, $4A
+	ldh [rOBPD], a
+	ld a, $84
+	ldh [rOBPD], a
+	
 	ld hl, $8000
 	ld de, TrabantSideTiles
 	ld bc, TrabantSideTiles_End
@@ -46,6 +53,16 @@ GamePlay::
 	ld de, Background
 	ld bc, BackgroundEnd
 	call loadMemoryDOUBLE
+	
+	ld hl, $81C0
+	ld de, SpeedTextTiles
+	ld bc, SpeedTextTilesEnd
+	call loadMemoryDOUBLE
+	
+	ld hl, ShadowOAM+24*4
+	ld de, SpeedSprites
+	ld bc, SpeedSpritesEnd-SpeedSprites
+	call loadMemory
 	
 	call waitForVBlank
 	; Set tiles attributes (especially palettes)
@@ -153,6 +170,16 @@ GamePlay::
 .loop
 	call waitForVBlank	
 	
+	call updateJoypadState
+	ld a, [wJoypadState]
+	and PADF_UP | PADF_LEFT
+	call nz, MoveUp
+	ld a, [wJoypadState]
+	and PADF_DOWN | PADF_RIGHT
+	call nz, MoveDown
+	
+	call ProcessMusic
+	
 	ld hl, hMainScrollIndex
 	ld bc, hMainCounter
 	ld e, 1
@@ -173,14 +200,6 @@ GamePlay::
 	ld e, 7
 	call AdjustScrollX
 	
-	call updateJoypadState
-	ld a, [wJoypadState]
-	and PADF_UP | PADF_LEFT
-	call nz, MoveUp
-	ld a, [wJoypadState]
-	and PADF_DOWN | PADF_RIGHT
-	call nz, MoveDown
-	
 	ld a, [wJoypadPressed]
 	and PADF_A
 	call nz, IncreaseSpeed
@@ -192,8 +211,6 @@ GamePlay::
 	ld a, [wJoypadPressed]
 	and PADF_START
 	jp nz, Restart
-	
-	call ProcessMusic
 	
 	jr .loop
 	

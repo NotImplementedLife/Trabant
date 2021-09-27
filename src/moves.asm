@@ -17,18 +17,17 @@ MoveDown::
 	jr UpdateY
 	
 UpdateY::	
-	ld hl, ShadowOAM
-	ld c, 23
-.loop
+	; experimentally, it proves very uneffective to use ShadowOAM here
+	; therefore, write directly to OAM
+	ld hl, $FE00
+	REPT(23) ; # of sprites
 	ld a, [hl]
 	add b
 	ld [hli], a
 	inc l
 	inc l
 	inc l
-	dec c
-	jr nz, .loop
-	initOAM ShadowOAM
+	ENDR
 	
 	ldh a, [hTrabantY]
 	add b
@@ -38,19 +37,19 @@ UpdateY::
 
 IncreaseSpeed::
 	ldh a, [hSpeed]
-	cp 9
+	cp 15
 	ret z
 	inc a
 	ldh [hSpeed], a	
-	ret
+	jp UpdateSpeedSprite
 	
 DecreaseSpeed::
 	ldh a, [hSpeed]
-	cp 2
+	cp 1
 	ret z
 	dec a
 	ldh [hSpeed], a
-	ret
+	jp UpdateSpeedSprite
 
 
 ; hl = target
@@ -75,4 +74,54 @@ AdjustScrollX::
 	jr nc, .loop
 	
 	ld [bc], a
+	ret
+	
+	
+SECTION "Speed Indicator", ROMX
+
+SpeedTextTiles::
+
+DB $0f, $0f, $09, $09, $08, $08, $06, $06, $01, $01, $09, $09, $0f, $0f, $00, $00
+DB $00, $00, $00, $00, $79, $79, $2a, $2a, $2b, $2b, $2a, $2a, $31, $31, $20, $20
+DB $00, $00, $00, $00, $99, $99, $aa, $aa, $32, $32, $22, $22, $99, $99, $00, $00
+DB $c0, $c0, $40, $40, $c8, $c8, $40, $40, $40, $40, $40, $40, $e8, $e8, $00, $00
+; Next: Digits (will come at $8200)
+DB $00, $00, $18, $18, $24, $24, $24, $24, $24, $24, $24, $24, $18, $18, $00, $00
+DB $00, $00, $30, $30, $10, $10, $10, $10, $10, $10, $10, $10, $38, $38, $00, $00
+DB $00, $00, $18, $18, $24, $24, $04, $04, $08, $08, $10, $10, $3c, $3c, $00, $00
+DB $00, $00, $3c, $3c, $04, $04, $08, $08, $04, $04, $24, $24, $18, $18, $00, $00
+DB $00, $00, $20, $20, $20, $20, $28, $28, $3c, $3c, $08, $08, $08, $08, $00, $00
+DB $00, $00, $3c, $3c, $20, $20, $38, $38, $04, $04, $04, $04, $38, $38, $00, $00
+DB $00, $00, $18, $18, $20, $20, $38, $38, $24, $24, $24, $24, $18, $18, $00, $00
+DB $00, $00, $3c, $3c, $04, $04, $08, $08, $10, $10, $10, $10, $10, $10, $00, $00
+DB $00, $00, $18, $18, $24, $24, $18, $18, $24, $24, $24, $24, $18, $18, $00, $00
+DB $00, $00, $18, $18, $24, $24, $24, $24, $1c, $1c, $04, $04, $18, $18, $00, $00
+
+SpeedTextTilesEnd::
+
+SpeedSprites::
+DB $12, $08, $1C, $01
+DB $12, $10, $1D, $01
+DB $12, $18, $1E, $01
+DB $12, $20, $1F, $01
+DB $12, $28, $20, $01
+DB $12, $2E, $22, $01
+SpeedSpritesEnd::
+
+UpdateSpeedSprite::
+	or a     
+	daa
+	
+	ld b, a
+	swap a
+	and $0F
+	or $20
+	ld [$FE72], a
+	
+	ld a, b
+	and $0F
+	or $20
+	ld [$FE76], a
+	
+	
 	ret
