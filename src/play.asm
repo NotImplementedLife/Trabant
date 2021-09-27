@@ -3,6 +3,8 @@ INCLUDE "src/include/macros.inc"
 SECTION "Game logic", ROM0
 
 GamePlay::
+	ld bc, STATHandlerParallax
+	call STATCopy
 	call clearVRAM
 	
 	call waitForVBlank

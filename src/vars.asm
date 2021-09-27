@@ -14,6 +14,12 @@ SECTION "OAM", WRAMX, ALIGN[0]
 ShadowOAM::
 	DS 160
 	
+SECTION "Variable STAT Interrupt", WRAM0
+
+STATHandler::
+
+DS 1024
+	
 	
 SECTION "HRAM Vars", HRAM
 	
