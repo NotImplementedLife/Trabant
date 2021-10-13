@@ -3,7 +3,7 @@ _Any existing thing in this world can be either non-sense or art. Programming is
 
 This repo is part of [HomebrewOwl.GB](https://github.com/NotImplementedLife/HomebrewOwl.GB "HomebrewOwl") projects collection.
 This is a [GB Compo 2021](https://gbdev.io/gbcompo21/) game entry. 
-Download the latest version [here](https://github.com/NotImplementedLife/Trabant/releases/download/1.2/Trabant_1_2.gbc).
+Download the latest version [here](https://github.com/NotImplementedLife/Trabant/releases/download/1.3/Trabant_1_3.gbc).
 
 ## The idea
 
