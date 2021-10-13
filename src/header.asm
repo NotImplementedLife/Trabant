@@ -9,6 +9,8 @@ SECTION "Header", ROM0[$100]
 SECTION "Entry point", ROM0
 
 EntryPoint::
+	cp $11
+	jp nz, NoGbc
 	call HbOwlSplashScreen
 	call CopyDMARoutine
 	ei
